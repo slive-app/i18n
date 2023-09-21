@@ -6,8 +6,26 @@ on:
       - main
 
 jobs:
+  syntax_check:
+    name: JSON Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Syntax Check
+        uses: larrrssss/json-syntax-checker@v1.0.1
+        with:
+          workspace: ${{ github.workspace }}
+          base: '/'
+          check_recursively: true
+
   merge_i18n:
     name: Merge i18n translation files
+    needs: syntax_check
     runs-on: ubuntu-latest
 
     steps:
